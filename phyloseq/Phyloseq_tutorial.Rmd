@@ -1,0 +1,238 @@
+---
+title: "Phyloseq tutorial"
+author: "Daniel Vaulot"
+date: "7 juin 2017"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Load necessary libraries
+
+* phyloseq
+* ggplot2
+* readxl  : necessary to import the data from Excel file
+* dplyr   : becessary to reformat dataframe
+
+```{r libraries}
+library("phyloseq")
+library("ggplot2")
+library("readxl") 
+library("dplyr") 
+```
+
+### Read the data and create phyloseq objects
+
+Three tables are needed :  
+* OTU  
+* Taxonomy  
+* Samples  
+They are read from a single Excel file where each sheet contains one of the tables
+
+```{r}
+  otu_mat<- read_excel("CARBOM data.xlsx", sheet = "OTU matrix")
+  tax_mat<- read_excel("CARBOM data.xlsx", sheet = "Taxonomy table")
+  samples_df <- read_excel("CARBOM data.xlsx", sheet = "Samples")
+```
+Phyloseq objects need to have row.names
+
+* define the row names from the otu column
+```{r}
+    row.names(otu_mat) <- otu_mat$otu
+```
+* remove the column otu since it is now used as a row name     
+
+```{r}
+    otu_mat <- otu_mat %>% select (-otu) 
+```
+* Idem for the two other matrixes   
+```{r}
+  row.names(tax_mat) <- tax_mat$otu
+  tax_mat <- tax_mat %>% select (-otu) 
+
+  row.names(samples_df) <- samples_df$sample
+  samples_df <- samples_df %>% select (-sample) 
+
+```
+
+
+Transform into matrixes otu and tax tables (sample table can be left as data frame)
+```{r}
+  otu_mat <- as.matrix(otu_mat)
+  tax_mat <- as.matrix(tax_mat)
+```
+
+Transform to phyloseq objects
+```{r}
+  OTU = otu_table(otu_mat, taxa_are_rows = TRUE)
+  TAX = tax_table(tax_mat)
+  samples = sample_data(samples_df)
+  
+  carbom <- phyloseq(OTU, TAX, samples)
+  carbom
+```  
+  
+Visualize data
+```{r}
+  sample_names(carbom)
+  rank_names(carbom)
+  sample_variables(carbom)
+```
+
+Keep only samples to be analyzed
+```{r}
+  carbom <- subset_samples(carbom, Select_18S_nifH =="Yes")
+  carbom
+```
+
+
+Keep only photosynthetic taxa
+```{r}
+  carbom <- subset_taxa(carbom, Division %in% c("Chlorophyta", "Dinophyta", "Cryptophyta", 
+                                                "Haptophyta", "Ochrophyta", "Cercozoa"))
+  carbom <- subset_taxa(carbom, !(Class %in% c("Syndiniales", "Sarcomonadea")))
+  carbom
+```
+
+Normalize number of reads in each sample using median sequencing depth.
+```{r}
+  total = median(sample_sums(carbom))
+  standf = function(x, t=total) round(t * (x / sum(x)))
+  carbom = transform_sample_counts(carbom, standf)
+```
+
+The number of reads used for normalization is **`r sprintf("%.0f", total)`**. 
+
+### Bar graphs 
+
+Basic bar graph based on Division
+```{r}
+  plot_bar(carbom, fill = "Division")
+```
+
+Make the bargraph nicer by removing OTUs boundaries.  This is done by adding ggplot2 modifier.
+```{r}
+  plot_bar(carbom, fill = "Division") + 
+  geom_bar(aes(color=Division, fill=Division), stat="identity", position="stack")
+```
+
+Regroup together Pico vs Nano samples
+```{r, warning=FALSE}
+  carbom_fraction <- merge_samples(carbom, "fraction")
+  plot_bar(carbom_fraction, fill = "Division") + 
+  geom_bar(aes(color=Division, fill=Division), stat="identity", position="stack")
+```
+
+Keep only Chlorophyta and use color according to genus. Do separate panels Pico vs Nano and Surface vs Deep samples.
+```{r}
+  carbom_chloro <- subset_taxa(carbom, Division %in% c("Chlorophyta"))
+  plot_bar(carbom_chloro, x="Genus", fill = "Genus", facet_grid = level~fraction) +
+  geom_bar(aes(color=Genus, fill=Genus), stat="identity", position="stack")
+```
+
+### Heatmaps
+
+A basic heatmap using the default parameters.
+```{r}
+  plot_heatmap(carbom, method = "NMDS", distance = "bray")
+```  
+  
+It is very very cluttered.  It is better to only consider the most abundant OTUs for heatmaps. For example one can only take OTUs that represent at least 20% of reads in at least one sample. Remember we normalized all the sampples to median number of reads (total).  We are left with only 33 OTUS which makes the reading much more easy.
+```{r}
+  carbom_abund <- filter_taxa(carbom, function(x) sum(x > total*0.20) > 0, TRUE)
+  carbom_abund
+  otu_table(carbom_abund)[1:8, 1:5]
+  plot_heatmap(carbom_abund, method = "NMDS", distance = "bray")
+```
+  
+It is possible to use different distances and different multivaraite methods.  For example Jaccard distance and MDS and label OTUs with Class,  order by Class. We can also change the Palette (the default palette is a bit ugly...).
+```{r}
+  plot_heatmap(carbom_abund, method = "MDS", distance = "jaccard", 
+               taxa.label = "Class", taxa.order = "Class", 
+               trans=NULL, low="beige", high="red", na.value="beige")
+```
+
+Another strategy is to do a heatmap for a specific taxonomy group.  For example we can taget the Chlorophyta and then label the OTUs using the Genus.
+```{r}
+  plot_heatmap(carbom_chloro, method = "NMDS", distance = "bray", 
+               taxa.label = "Genus", taxa.order = "Genus", 
+               low="beige", high="red", na.value="beige")
+```
+
+### Alpha diversity
+
+Plot Chao1 richness estimator and Shannon diversity estimator.
+```{r}
+  plot_richness(carbom, measures=c("Chao1", "Shannon"))
+```
+
+
+Regroup together samples from the same fraction.
+```{r}
+  plot_richness(carbom, measures=c("Chao1", "Shannon"), x="level", color="fraction")
+```
+
+### Ordination
+
+Do multivariate analysis based on Bray-Curtis distance and NMDS ordination.
+
+```{r}
+  carbom.ord <- ordinate(carbom, "NMDS", "bray")
+```
+
+PLot **OTUs**
+```{r}
+  plot_ordination(carbom, carbom.ord, type="taxa", color="Class", shape= "Division", 
+                  title="OTUs")
+```
+
+A bit confusing, so make it more easy to visualize by breaking according to taxonomic division.
+```{r}
+  plot_ordination(carbom, carbom.ord, type="taxa", color="Class", 
+                  title="OTUs", label="Class") + 
+  facet_wrap(~Division, 3)
+```
+
+Now display **samples** and enlarge the points to make it more easy to read.
+```{r}
+  plot_ordination(carbom, carbom.ord, type="samples", color="fraction", 
+                  shape="level", title="Samples") + geom_point(size=3)
+```
+
+
+Diplay both samples and OTUs but in 2 different panels.
+```{r}
+  plot_ordination(carbom, carbom.ord, type="split", color="Class", 
+                  shape="level", title="biplot", label = "station") +  
+  geom_point(size=3)
+```
+
+### Network analysis
+
+Simple network analysis
+```{r}
+  plot_net(carbom, distance = "bray", type = "taxa", 
+           maxdist = 0.7, color="Class", point_label="Genus")
+```
+
+This is quite confusing.  Let us make it more simple by using only major OTUs 
+```{r}
+  plot_net(carbom_abund, distance = "bray", type = "taxa", 
+           maxdist = 0.8, color="Class", point_label="Genus") 
+```
+
+  
+
+
+
+
+  
+
+
+
+
