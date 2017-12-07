@@ -7,11 +7,27 @@ output:
   html_document: default
   word_document: default
 ---
+##Introduction
+This document explains the use of the phyloseq R library to analyze metabarcoding data.
+
+#### Phyloseq R library
+* Phyloseq [web site](https://joey711.github.io/phyloseq/index.html)
+* See in particular tutorials for
+    - [importing data](https://joey711.github.io/phyloseq/import-data.html)
+    - [heat maps](https://joey711.github.io/phyloseq/plot_heatmap-examples.html)
+
+#### Data  
+This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
+
+#### References for data
+* Gérikas Ribeiro, C., Lopes dos Santos, A., Marie, D., Helena Pellizari, V., Pereira Brandini, F., and Vaulot, D. (2016). Pico and nanoplankton abundance and carbon stocks along the Brazilian Bight. PeerJ 4, e2587. doi:10.7717/peerj.2587.
+* Gérikas Ribeiro, C., Marie, D., Lopes dos Santos, A., Pereira Brandini, F., and Vaulot, D. (2016). Estimating microbial populations by flow cytometry: Comparison between instruments. Limnol. Oceanogr. Methods 14, 750–758. doi:10.1002/lom3.10135.
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+##Script description
 ### Load necessary libraries
 
 * phyloseq
