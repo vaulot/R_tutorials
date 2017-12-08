@@ -11,10 +11,10 @@ output:
 This document explains the use of the phyloseq R library to analyze metabarcoding data.
 
 #### Phyloseq R library
-* Phyloseq [web site](https://joey711.github.io/phyloseq/index.html)
+* Phyloseq web site : https://joey711.github.io/phyloseq/index.html
 * See in particular tutorials for
-    - [importing data](https://joey711.github.io/phyloseq/import-data.html)
-    - [heat maps](https://joey711.github.io/phyloseq/plot_heatmap-examples.html)
+    - importing data: https://joey711.github.io/phyloseq/import-data.html
+    - heat maps: https://joey711.github.io/phyloseq/plot_heatmap-examples.html
 
 #### Data  
 This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
