@@ -8,3 +8,5 @@ I will post here a few tutorials for different types of analysis of microbial co
 * [phyloseq](https://github.com/vaulot/R_tutorials/tree/master/phyloseq) - Manual is [here](https://github.com/vaulot/R_tutorials/blob/master/phyloseq/Phyloseq_tutorial.pdf)
 
 Please post any question or issues [here](https://github.com/vaulot/R_tutorials/issues)
+
+The whole set of tutorials can be downloaded [here](https://github.com/vaulot/R_tutorials/releases)
