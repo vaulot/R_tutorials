@@ -19,7 +19,7 @@ The whole set of tutorials can be downloaded [here](https://github.com/vaulot/R_
 
 install.packages("dplyr")  # To manipulate dataframes
 install.packages("tidyr")  # To manipulate dataframes
-install.packages("readxl")  # To manipulate dataframes
+install.packages("readxl")  # To read Excel files into R
 
 install.packages("ggplot2")
 
