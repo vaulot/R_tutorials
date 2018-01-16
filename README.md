@@ -17,13 +17,20 @@ The whole set of tutorials can be downloaded [here](https://github.com/vaulot/R_
 * Download and install the following libraries by running under R studio the following lines
 ```R
 
-install.packages("dplyr")  # To manipulate dataframes
-install.packages("tidyr")  # To manipulate dataframes
-install.packages("readxl")  # To read Excel files into R
+install.packages("dplyr")     # To manipulate dataframes
+install.packages("tidyr")     # To manipulate dataframes
+install.packages("readxl")    # To read Excel files into R
 
-install.packages("ggplot2")
+install.packages("ggplot2")   # for high quality graphics
+install.packages("maps")      # to make maps
+
+install.packages("treemap")   # data for the mapsfro treemaps
+
+install.packages("FactoMineR")   # multivariate analysis
+
 
 source("https://bioconductor.org/biocLite.R")
-biocLite('phyloseq')
+biocLite('phyloseq')          # metabarcode data analysis
+biocLite("Biostrings")        # manipulate sequences
 ```
 
