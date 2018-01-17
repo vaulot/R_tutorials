@@ -24,9 +24,9 @@ install.packages("readxl")    # To read Excel files into R
 install.packages("ggplot2")   # for high quality graphics
 install.packages("maps")      # to make maps
 
-install.packages("treemap")   # data for the mapsfro treemaps
+install.packages("treemap")   # for treemaps
 
-install.packages("FactoMineR")   # multivariate analysis
+install.packages("FactoMineR") # multivariate analysis
 
 
 source("https://bioconductor.org/biocLite.R")
