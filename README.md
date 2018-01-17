@@ -1,8 +1,5 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+
+
 ## Tutorials for R
 
 Author : Daniel VAULOT  
@@ -45,7 +42,10 @@ biocLite('phyloseq')          # metabarcode data analysis
 biocLite("Biostrings")        # manipulate sequences
 ```
 
-
+---
+output:
+  pdf_document: default
+---
 
 
 
