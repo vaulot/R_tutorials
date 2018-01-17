@@ -3,15 +3,17 @@ title: "Introduction to R for microbial ecologists"
 author: "Daniel Vaulot"
 date: "14 jan 2018"
 output:
-  pdf_document: default
+  pdf_document: 
+    toc: yes
+    toc_depth: 2
   html_document: default
   word_document: default
 ---
-##Aim
+# Aim
 
 This document introduces basic R functions that can be used by microbial ecologists.
 
-## Prerequisites to be installed
+# Prerequisites to be installed
 
 * R : https://pbil.univ-lyon1.fr/CRAN/
 
@@ -37,11 +39,9 @@ biocLite('phyloseq')          # metabarcode data analysis
 biocLite("Biostrings")        # manipulate sequences
 ```
 
-\pagebreak
+# Ressources  
 
-## Ressources  
-
-##### Books  
+## Books  
 \begin{center}
 \includegraphics[height=200px]{images/R_nutshell}
 \includegraphics[height=200px]{images/R_graphics_cookbook}
@@ -53,19 +53,19 @@ biocLite("Biostrings")        # manipulate sequences
 
 
 
-##### Web  
+## Web  
 
 * Quick-R, very simple : http://www.statmethods.net/  
 * Maps : http://www.molecularecologist.com/2012/09/making-maps-with-r/  
 
 \includegraphics[height=200px]{images/web_quickR}
 
-##### Cheat sheets  
+## Cheat sheets  
 * R basics : http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf
 * ggplot2 : https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf
 * dplyr : https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
-##### On line course  
+## On line course  
 
 * Coursera : https://www.coursera.org/  
 
@@ -76,9 +76,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 \pagebreak  
 
-## Step by step tutorial  
+# Step by step tutorial  
 
-### Some important points before starting 
+## Some important points before starting 
 
 * R is an interpreted language
 * R is **case sensitive**
@@ -89,7 +89,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * Directory names use the linux convention: use **/** and not \
 
 
-### Start R Studio  
+## Start R Studio  
 
 Go to the directory where you put the tutorial.
 
@@ -97,16 +97,14 @@ Launch R Studio
 
 Four windows   
 
-* top-left : script files / data tables  
-* bottom -left: code  
-* top - left : objects  
-* bottom - right : help / libraries / files  / graphics  
+* top-left : script files / data tables
+* bottom -left: code
+* top - left : objects
+* bottom - right : help / libraries / files  / graphics
 
 \includegraphics{images/R_Studio}
 
-
-
-### Load necessary libraries  
+## Load necessary libraries  
 ```{r libraries, results='hide', message=FALSE}
 library("dplyr")          # Needed to filter tables
 library("tidyr")          # Needed to reshape tables from wide to long format
@@ -115,7 +113,7 @@ library("readxl")         # To read data easily
 
 \pagebreak
 
-### 1 - Create simple vectors and data frame 
+## 1 - Create simple vectors and data frame 
 
 ##### Enter the data
 Our aim here to create a small table and then to compute some simple statistics 
@@ -201,7 +199,7 @@ aggregate(data=tara, diatoms~station, FUN="mean")
 
 \pagebreak
 
-### 2 - Importing data
+## 2 - Importing data
 
 \includegraphics{images/Tara_Excel}
 
@@ -217,7 +215,7 @@ A few important points :
      + Always begin by letter (not a number)
 * Only import primary data, all derived data can (and must) be computed with R which makes data changes much more easy  
 
-#### The hard way - exporting from Excel to a tab-delimited file
+##### The hard way - exporting from Excel to a tab-delimited file
 
 * Open Excel file  in /data directory : R_Tara.xlsx
 * Copy and Paste into text file using Notepad++
@@ -234,7 +232,7 @@ Note that empty cells are labelled as **NA** (not available) which is a R consta
 ```{r}
 str(tara)
 ```
-#### The easy way - Read directly Excel (readxl library)
+##### The easy way - Read directly Excel (readxl library)
 
 ```{r}
 tara <- read_excel("data/R_Tara.xlsx", sheet = "R Tara")
@@ -246,7 +244,7 @@ str(tara)
 ```
 \pagebreak
 
-### 3 - Compute derived quantities and Statistics  (using dplyr library)
+## 3 - Compute derived quantities and Statistics  (using dplyr library)
 
 Compute % of Bacilliarophyta and Pelagophyceae vs Total photosynthetic
 ```{r}
@@ -265,7 +263,7 @@ tara_stat
 ```
 \pagebreak
 
-### 4 - Do simple X-Y plots  (using ggplot2 library)
+## 4 - Do simple X-Y plots  (using ggplot2 library)
 
 Load the ggplot2 library
 ```{r , results='hide', message=FALSE}
@@ -317,7 +315,7 @@ qplot(fraction,Baci_pct, data=tara, color=depth_level)
 ```
 \pagebreak
 
-### 5 - Other types of plots
+## 5 - Other types of plots
 
 Boxplot for the same data
 
@@ -345,7 +343,7 @@ qplot(Baci_pct, data=tara,  facets=fraction~depth_level, geom="histogram",binwid
 ```
 \pagebreak
 
-#### 6 - Tree maps (much better than Pie charts...)
+## 6 - Tree maps (much better than Pie charts...)
 
 
 ```{r , results='hide', message=FALSE}
@@ -375,7 +373,7 @@ treemap(tara_tree, index = c("fraction", "Class"), vSize= "n_seq", title = "Read
 ```
 \pagebreak
 
-### 7 - Bar graphs
+## 7 - Bar graphs
 
 ##### Absolute abundance
 
@@ -414,7 +412,7 @@ ggplot(tara_bar, aes(x = Sample , y = n_seq_rel, fill=Class) ) +
 
 \pagebreak
 
-### 8 - Heat maps
+## 8 - Heat maps
 
 Note : for metabarcoding data use phyloseq package.
 
@@ -437,7 +435,7 @@ heatmap(tara_heat.matrix, margins = c(20,6) )
 
 \pagebreak
 
-### 9 - Multivariate analysis (FactoMiner package)
+## 9 - Multivariate analysis (FactoMiner package)
 
 ```{r , results='hide', message=FALSE}
 library("FactoMineR")     # For PCA
@@ -465,7 +463,7 @@ tara_pca<-PCA(tara_multi)
 
 \pagebreak
 
-### 10 -	Maps
+## 10 -	Maps
 
 ```{r , results='hide', message=FALSE}
 library("maps")           # Maps
@@ -495,7 +493,7 @@ title("Bacilliorophyta as % of Photosynthetic - 0.8-5 µm - surface",cex.main=1.
 
 \pagebreak
 
-### 11 - Manipulate sequences
+## 11 - Manipulate sequences
 
 In  BioConductor there are many packages that can process sequences either GenBank or short reads
 ```{r , results='hide', message=FALSE}
@@ -508,7 +506,7 @@ seq<-readDNAStringSet("data/BIOSOPE_T142_reads_random.fasta", format="fasta")
 ```
 
 Compute length of sequence (discard N), compute statistics and plot histogram
-```{r, fig.height=4}
+```{r, fig.height=3}
 Length_seq<-letterFrequency(seq, letters="ATCG")
 
 range(Length_seq)
@@ -519,7 +517,7 @@ qplot(Length_seq, geom="histogram", xlab="Sequence length", ylab="Frequency")
 ```
 
 Compute GC% and do simple plots
-```{r, fig.height=4}
+```{r, fig.height=3}
 # Compute number of "GC"
 GC_seq <- letterFrequency(seq, letters="CG")
 
