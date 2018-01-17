@@ -1,5 +1,3 @@
-
-
 ## Tutorials for R
 
 Author : Daniel VAULOT  
@@ -41,11 +39,6 @@ source("https://bioconductor.org/biocLite.R")
 biocLite('phyloseq')          # metabarcode data analysis
 biocLite("Biostrings")        # manipulate sequences
 ```
-
----
-output:
-  pdf_document: default
----
 
 
 
