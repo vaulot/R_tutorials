@@ -2,24 +2,28 @@
 title: "Phyloseq tutorial"
 author: "Daniel Vaulot"
 date: "7 juin 2017"
+header-includes:
+   - \usepackage{color, fancyvrb}
 output:
-  pdf_document: default
-  html_document: default
-  word_document: default
+  pdf_document: 
+    toc: yes
+    toc_depth: 2
+    number_sections : yes
 ---
-##Introduction
+
+#Introduction
 This document explains the use of the phyloseq R library to analyze metabarcoding data.
 
-#### Phyloseq R library
+## Phyloseq R library
 * Phyloseq web site : https://joey711.github.io/phyloseq/index.html
 * See in particular tutorials for
     - importing data: https://joey711.github.io/phyloseq/import-data.html
     - heat maps: https://joey711.github.io/phyloseq/plot_heatmap-examples.html
 
-#### Data  
+## Data  
 This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
 
-#### References for data
+## References for data
 * Gérikas Ribeiro, C., Lopes dos Santos, A., Marie, D., Helena Pellizari, V., Pereira Brandini, F., and Vaulot, D. (2016). Pico and nanoplankton abundance and carbon stocks along the Brazilian Bight. PeerJ 4, e2587. doi:10.7717/peerj.2587.
 * Gérikas Ribeiro, C., Marie, D., Lopes dos Santos, A., Pereira Brandini, F., and Vaulot, D. (2016). Estimating microbial populations by flow cytometry: Comparison between instruments. Limnol. Oceanogr. Methods 14, 750–758. doi:10.1002/lom3.10135.
 
@@ -27,22 +31,39 @@ This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-##Script description
-### Load necessary libraries
 
-* phyloseq
-* ggplot2
-* readxl  : necessary to import the data from Excel file
-* dplyr   : becessary to reformat dataframe
+# Prerequisites to be installed
+
+* R : https://pbil.univ-lyon1.fr/CRAN/
+
+* R studio : https://www.rstudio.com/products/rstudio/download/#download
+
+* Download and install the following libraries by running under R studio the following lines
+
+```R
+install.packages("dplyr")     # To manipulate dataframes
+install.packages("readxl")    # To read Excel files into R
+
+install.packages("ggplot2")   # for high quality graphics
+
+source("https://bioconductor.org/biocLite.R")
+biocLite("phyloseq")        
+```
+
+
+# Script description
+
+## Load necessary libraries
+
 
 ```{r libraries}
 library("phyloseq")
-library("ggplot2")
-library("readxl") 
-library("dplyr") 
+library("ggplot2")      # graphics
+library("readxl")       # necessary to import the data from Excel file
+library("dplyr")        # filter and reformat data frames
 ```
 
-### Read the data and create phyloseq objects
+## Read the data and create phyloseq objects
 
 Three tables are needed :  
 * OTU  
@@ -75,7 +96,6 @@ Phyloseq objects need to have row.names
   samples_df <- samples_df %>% select (-sample) 
 
 ```
-
 
 Transform into matrixes otu and tax tables (sample table can be left as data frame)
 ```{r}
@@ -124,18 +144,24 @@ Normalize number of reads in each sample using median sequencing depth.
 
 The number of reads used for normalization is **`r sprintf("%.0f", total)`**. 
 
-### Bar graphs 
+\pagebreak
+
+## Bar graphs 
 
 Basic bar graph based on Division
 ```{r}
   plot_bar(carbom, fill = "Division")
 ```
 
+\pagebreak
+
 Make the bargraph nicer by removing OTUs boundaries.  This is done by adding ggplot2 modifier.
 ```{r}
   plot_bar(carbom, fill = "Division") + 
   geom_bar(aes(color=Division, fill=Division), stat="identity", position="stack")
 ```
+
+\pagebreak
 
 Regroup together Pico vs Nano samples
 ```{r, warning=FALSE}
@@ -144,6 +170,8 @@ Regroup together Pico vs Nano samples
   geom_bar(aes(color=Division, fill=Division), stat="identity", position="stack")
 ```
 
+\pagebreak
+
 Keep only Chlorophyta and use color according to genus. Do separate panels Pico vs Nano and Surface vs Deep samples.
 ```{r}
   carbom_chloro <- subset_taxa(carbom, Division %in% c("Chlorophyta"))
@@ -151,13 +179,17 @@ Keep only Chlorophyta and use color according to genus. Do separate panels Pico 
   geom_bar(aes(color=Genus, fill=Genus), stat="identity", position="stack")
 ```
 
-### Heatmaps
+\pagebreak
+
+## Heatmaps
 
 A basic heatmap using the default parameters.
 ```{r}
   plot_heatmap(carbom, method = "NMDS", distance = "bray")
 ```  
-  
+
+\pagebreak
+
 It is very very cluttered.  It is better to only consider the most abundant OTUs for heatmaps. For example one can only take OTUs that represent at least 20% of reads in at least one sample. Remember we normalized all the sampples to median number of reads (total).  We are left with only 33 OTUS which makes the reading much more easy.
 ```{r}
   carbom_abund <- filter_taxa(carbom, function(x) sum(x > total*0.20) > 0, TRUE)
@@ -165,13 +197,17 @@ It is very very cluttered.  It is better to only consider the most abundant OTUs
   otu_table(carbom_abund)[1:8, 1:5]
   plot_heatmap(carbom_abund, method = "NMDS", distance = "bray")
 ```
-  
+
+\pagebreak
+
 It is possible to use different distances and different multivaraite methods.  For example Jaccard distance and MDS and label OTUs with Class,  order by Class. We can also change the Palette (the default palette is a bit ugly...).
 ```{r}
   plot_heatmap(carbom_abund, method = "MDS", distance = "jaccard", 
                taxa.label = "Class", taxa.order = "Class", 
                trans=NULL, low="beige", high="red", na.value="beige")
 ```
+
+\pagebreak
 
 Another strategy is to do a heatmap for a specific taxonomy group.  For example we can taget the Chlorophyta and then label the OTUs using the Genus.
 ```{r}
@@ -180,20 +216,25 @@ Another strategy is to do a heatmap for a specific taxonomy group.  For example 
                low="beige", high="red", na.value="beige")
 ```
 
-### Alpha diversity
+\pagebreak
+
+## Alpha diversity
 
 Plot Chao1 richness estimator and Shannon diversity estimator.
 ```{r}
   plot_richness(carbom, measures=c("Chao1", "Shannon"))
 ```
 
+\pagebreak
 
 Regroup together samples from the same fraction.
 ```{r}
   plot_richness(carbom, measures=c("Chao1", "Shannon"), x="level", color="fraction")
 ```
 
-### Ordination
+\pagebreak
+
+## Ordination
 
 Do multivariate analysis based on Bray-Curtis distance and NMDS ordination.
 
@@ -201,11 +242,15 @@ Do multivariate analysis based on Bray-Curtis distance and NMDS ordination.
   carbom.ord <- ordinate(carbom, "NMDS", "bray")
 ```
 
-PLot **OTUs**
+\pagebreak
+
+Plot **OTUs**
 ```{r}
   plot_ordination(carbom, carbom.ord, type="taxa", color="Class", shape= "Division", 
                   title="OTUs")
 ```
+
+\pagebreak
 
 A bit confusing, so make it more easy to visualize by breaking according to taxonomic division.
 ```{r}
@@ -214,12 +259,15 @@ A bit confusing, so make it more easy to visualize by breaking according to taxo
   facet_wrap(~Division, 3)
 ```
 
+\pagebreak
+
 Now display **samples** and enlarge the points to make it more easy to read.
 ```{r}
   plot_ordination(carbom, carbom.ord, type="samples", color="fraction", 
                   shape="level", title="Samples") + geom_point(size=3)
 ```
 
+\pagebreak
 
 Diplay both samples and OTUs but in 2 different panels.
 ```{r}
@@ -228,13 +276,17 @@ Diplay both samples and OTUs but in 2 different panels.
   geom_point(size=3)
 ```
 
-### Network analysis
+\pagebreak
+
+## Network analysis
 
 Simple network analysis
 ```{r}
   plot_net(carbom, distance = "bray", type = "taxa", 
            maxdist = 0.7, color="Class", point_label="Genus")
 ```
+
+\pagebreak
 
 This is quite confusing.  Let us make it more simple by using only major OTUs 
 ```{r}
