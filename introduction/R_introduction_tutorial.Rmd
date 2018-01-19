@@ -6,6 +6,9 @@ output:
   pdf_document: 
     toc: yes
     toc_depth: 2
+    fig_height : 3
+    fig_width : 5
+    
   html_document: default
   word_document: default
 ---

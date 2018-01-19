@@ -9,23 +9,31 @@ output:
     toc: yes
     toc_depth: 2
     number_sections : yes
+    fig_height : 6
+    fig_width : 7
 ---
 
 #Introduction
+
 This document explains the use of the phyloseq R library to analyze metabarcoding data.
 
 ## Phyloseq R library
+
 * Phyloseq web site : https://joey711.github.io/phyloseq/index.html
 * See in particular tutorials for
     - importing data: https://joey711.github.io/phyloseq/import-data.html
     - heat maps: https://joey711.github.io/phyloseq/plot_heatmap-examples.html
 
 ## Data  
+
 This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
 
 ## References for data
+
 * Gérikas Ribeiro, C., Lopes dos Santos, A., Marie, D., Helena Pellizari, V., Pereira Brandini, F., and Vaulot, D. (2016). Pico and nanoplankton abundance and carbon stocks along the Brazilian Bight. PeerJ 4, e2587. doi:10.7717/peerj.2587.
 * Gérikas Ribeiro, C., Marie, D., Lopes dos Santos, A., Pereira Brandini, F., and Vaulot, D. (2016). Estimating microbial populations by flow cytometry: Comparison between instruments. Limnol. Oceanogr. Methods 14, 750–758. doi:10.1002/lom3.10135.
+* Gérikas Ribeiro C, Lopes dos Santos A, Marie D, Brandini P, Vaulot D. (2018). Relationships between photosynthetic eukaryotes and nitrogen-fixing cyanobacteria off Brazil. ISME J in press.
+
 
 
 ```{r setup, include=FALSE}
@@ -155,6 +163,7 @@ Basic bar graph based on Division
 
 \pagebreak
 
+
 Make the bargraph nicer by removing OTUs boundaries.  This is done by adding ggplot2 modifier.
 ```{r}
   plot_bar(carbom, fill = "Division") + 
@@ -190,6 +199,7 @@ A basic heatmap using the default parameters.
 
 \pagebreak
 
+
 It is very very cluttered.  It is better to only consider the most abundant OTUs for heatmaps. For example one can only take OTUs that represent at least 20% of reads in at least one sample. Remember we normalized all the sampples to median number of reads (total).  We are left with only 33 OTUS which makes the reading much more easy.
 ```{r}
   carbom_abund <- filter_taxa(carbom, function(x) sum(x > total*0.20) > 0, TRUE)
@@ -224,6 +234,7 @@ Plot Chao1 richness estimator and Shannon diversity estimator.
 ```{r}
   plot_richness(carbom, measures=c("Chao1", "Shannon"))
 ```
+
 
 \pagebreak
 
@@ -261,6 +272,7 @@ A bit confusing, so make it more easy to visualize by breaking according to taxo
 
 \pagebreak
 
+
 Now display **samples** and enlarge the points to make it more easy to read.
 ```{r}
   plot_ordination(carbom, carbom.ord, type="samples", color="fraction", 
@@ -269,7 +281,7 @@ Now display **samples** and enlarge the points to make it more easy to read.
 
 \pagebreak
 
-Diplay both samples and OTUs but in 2 different panels.
+Display both samples and OTUs but in 2 different panels.
 ```{r}
   plot_ordination(carbom, carbom.ord, type="split", color="Class", 
                   shape="level", title="biplot", label = "station") +  
