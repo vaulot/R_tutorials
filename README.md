@@ -12,8 +12,6 @@ I will post here a few tutorials for different types of analysis of microbial co
 
 Please post any question or issues here : https://github.com/vaulot/R_tutorials/issues
 
-The whole set of tutorials can be downloaded at https://github.com/vaulot/R_tutorials/releases
-
 #### Prerequisites to be installed to run these tutorials
  
 * R : https://pbil.univ-lyon1.fr/CRAN/
