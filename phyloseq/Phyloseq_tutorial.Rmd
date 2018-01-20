@@ -61,6 +61,8 @@ biocLite("phyloseq")
 
 # Script description
 
+* Load the script file : **Phyloseq_tutorial.R**
+
 ## Load necessary libraries
 
 
@@ -201,7 +203,7 @@ A basic heatmap using the default parameters.
 
 
 It is very very cluttered.  It is better to only consider the most abundant OTUs for heatmaps. For example one can only take OTUs that represent at least 20% of reads in at least one sample. Remember we normalized all the sampples to median number of reads (total).  We are left with only 33 OTUS which makes the reading much more easy.
-```{r}
+```{r, , fig.height=4}
   carbom_abund <- filter_taxa(carbom, function(x) sum(x > total*0.20) > 0, TRUE)
   carbom_abund
   otu_table(carbom_abund)[1:8, 1:5]
