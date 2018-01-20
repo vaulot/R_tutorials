@@ -6,8 +6,8 @@ email: vaulot@sb-roscoff.fr / vaulot@gmail.com
 
 I will post here a few tutorials for different types of analysis of microbial communities.  For each of these of these tutorials there will be a detailed explanation as a pdf file created with Rmd.
 
-* introduction to R : https://github.com/vaulot/R_tutorials/tree/master/introduction
-* phyloseq : https://github.com/vaulot/R_tutorials/tree/master/phyloseq
+* Introduction to R : https://github.com/vaulot/R_tutorials/tree/master/introduction
+* Visualization and analysis of metabarcode data with phyloseq : https://github.com/vaulot/R_tutorials/tree/master/phyloseq
 
 
 Please post any question or issues here : https://github.com/vaulot/R_tutorials/issues
@@ -37,6 +37,11 @@ source("https://bioconductor.org/biocLite.R")
 biocLite('phyloseq')          # metabarcode data analysis
 biocLite("Biostrings")        # manipulate sequences
 ```
+
+#### Step by step instructions
+
+* Introduction to R : https://github.com/vaulot/R_tutorials/blob/master/introduction/R_introduction_tutorial.pdf
+* Phyloseq analysis of metabarcode data : https://github.com/vaulot/R_tutorials/tree/master/phyloseq
 
 
 
