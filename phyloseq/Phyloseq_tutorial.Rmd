@@ -1,7 +1,7 @@
 ---
 title: "Phyloseq tutorial"
 author: "Daniel Vaulot"
-date: "7 juin 2017"
+date: \`r format(Sys.Date(), "%d %m %Y")`\
 header-includes:
    - \usepackage{color, fancyvrb}
 output:
@@ -13,7 +13,7 @@ output:
     fig_width : 7
 ---
 
-#Introduction
+# Aim
 
 This document explains the use of the phyloseq R library to analyze metabarcoding data.
 
@@ -34,6 +34,9 @@ This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A.
 * Gérikas Ribeiro, C., Marie, D., Lopes dos Santos, A., Pereira Brandini, F., and Vaulot, D. (2016). Estimating microbial populations by flow cytometry: Comparison between instruments. Limnol. Oceanogr. Methods 14, 750–758. doi:10.1002/lom3.10135.
 * Gérikas Ribeiro C, Lopes dos Santos A, Marie D, Brandini P, Vaulot D. (2018). Relationships between photosynthetic eukaryotes and nitrogen-fixing cyanobacteria off Brazil. ISME J in press.
 
+## To be added
+
+* Exercices
 
 
 ```{r setup, include=FALSE}
