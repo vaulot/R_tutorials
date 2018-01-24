@@ -1,7 +1,7 @@
 ---
 title: "Phyloseq tutorial"
 author: "Daniel Vaulot"
-date: \`r format(Sys.Date(), "%d %m %Y")`\
+date: '`r format(Sys.time(), "%d %m %Y")`'
 header-includes:
    - \usepackage{color, fancyvrb}
 output:
@@ -25,6 +25,10 @@ This document explains the use of the phyloseq R library to analyze metabarcodin
     - heat maps: https://joey711.github.io/phyloseq/plot_heatmap-examples.html
 
 ## Data  
+
+\begin{center}
+\includegraphics[height=200px]{img/carbom_cruise}
+\end{center}
 
 This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
 
@@ -78,11 +82,30 @@ library("dplyr")        # filter and reformat data frames
 
 ## Read the data and create phyloseq objects
 
-Three tables are needed :  
+Three tables are needed
+
 * OTU  
 * Taxonomy  
-* Samples  
+* Samples
+
+
 They are read from a single Excel file where each sheet contains one of the tables
+
+\pagebreak
+
+\begin{center}
+\textbf{OTU table}
+
+\includegraphics[width=300px]{img/table_otu}
+
+\textbf{Taxon table}
+
+\includegraphics[width=300px]{img/table_taxo}
+
+\textbf{Sample table}
+
+\includegraphics[width=300px]{img/table_sample}
+\end{center}
 
 ```{r}
   otu_mat<- read_excel("CARBOM data.xlsx", sheet = "OTU matrix")
