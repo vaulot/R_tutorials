@@ -53,7 +53,7 @@ install.packages("plotrix" )  # needed for standard error
 
 # Data used
 
-* cultures02.txt contains data obtained by Priscilla Gourvil on antibiotics treatment of RCC strains
+* **cultures antibiotics.txt** contains data obtained by Priscilla Gourvil on antibiotics treatment of RCC strains
 
 
 # Tutorial description
@@ -73,7 +73,7 @@ library("stringr")
 ### Read and reformat the data
 Read the data
 ```{r}
-cell<- read.table("cultures 02.txt", header=TRUE, sep="\t", na.strings="NA", dec=".", strip.white=TRUE)
+cell<- read.table("cultures antibiotics.txt", header=TRUE, sep="\t", na.strings="NA", dec=".", strip.white=TRUE)
 knitr::kable(head(cell))
 ```
 
