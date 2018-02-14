@@ -1,10 +1,3 @@
----
-header-includes:
-   - \usepackage{color, fancyvrb, hyperref}
-output:
-  pdf_document: default
-  html_document: default
----
 ## Tutorials for R
 
 Author : Daniel VAULOT  
