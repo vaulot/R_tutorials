@@ -1,5 +1,5 @@
 ---
-title: "Tutorial - "
+title: "Tutorial - Plotting data from cultures"
 author: "Daniel Vaulot"
 date: '`r format(Sys.time(), "%d %m %Y")`'
 header-includes:
@@ -54,6 +54,7 @@ install.packages("plotrix" )  # needed for standard error
 # Data used
 
 * **cultures antibiotics.txt** contains data obtained by Priscilla Gourvil on antibiotics treatment of RCC strains
+* **grazing experiment.xlsx** contains data obtained by Valeria Jimenez on grazing experiment on Micromonas
 
 
 # Tutorial description
@@ -67,6 +68,7 @@ library("plotrix" ) # needed for standard error
 library("dplyr")
 library("tidyr")
 library("stringr")
+library("readxl")
 ```
 
 ## Antibiotics treatments
@@ -157,7 +159,32 @@ plot1
 ```
 
 
+## Grazing experiment
 
+Micromonas are fed with fluorescent labelled beads and one looks at the % of cells that have beads
+The idea is to do a plot with 2 different scales for the y axis.
+
+#### Read the data
+
+```{r}
+ grazing <- read_xlsx("grazing experiment.xlsx", sheet="RCC2306")
+
+# Compute a new variable with the same scale as the cell concentration to be able to plot on the same graph
+ grazing$cell_beads_pct_scaled <- grazing$cell_beads_pct*200000
+
+  knitr::kable(head(grazing))
+```
+
+#### Plot the data
+Demonstrate the use of sec_axis.
+```{r}
+plot <- ggplot(data=grazing, aes(x=time, y=cell_ml, ymin=0, fill=treatment)) + 
+              geom_point(size = 4, shape = 21) +
+	            labs(x = "Time (hours)", y = "Cells per mL - circles" ) +
+              geom_point(size = 4, shape = 22, aes(x=time, y=cell_beads_pct_scaled, fill=treatment)) +
+              scale_y_continuous(sec.axis = sec_axis(~./200000, name="% of cells with beads - squares"))
+print(plot)
+```
 
 
 
