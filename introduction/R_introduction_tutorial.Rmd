@@ -59,6 +59,7 @@ biocLite("Biostrings")        # manipulate sequences
 
 * Quick-R, very simple : http://www.statmethods.net/  
 * Maps : http://www.molecularecologist.com/2012/09/making-maps-with-r/  
+* Minimal R : http://www.riffomonas.org/minimalR/
 
 \includegraphics[height=200px]{images/web_quickR}
 
