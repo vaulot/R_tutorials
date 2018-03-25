@@ -1,0 +1,127 @@
+---
+title: "Tutorial - Maps with R"
+author: "Daniel Vaulot"
+date: '`r format(Sys.time(), "%d %m %Y")`'
+always_allow_html: yes
+header-includes:
+   - \usepackage{xcolor, fancyvrb}
+   - \usepackage{hyperref} 
+   - \hypersetup{colorlinks=true, citecolor=darkgray, linkcolor=darkgray} 
+output:
+  pdf_document: 
+    toc: yes
+    toc_depth: 2
+    number_sections : yes
+    fig_height : 6
+    fig_width : 7
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Aim
+
+This tutorial explain how to make maps with different packages under R
+
+
+# Downloads
+
+Install the following software :  
+
+
+* R studio : https://www.rstudio.com/products/rstudio/download/#download
+
+
+Download and install the following libraries by running under R studio the following lines
+
+```R
+install.packages("dplyr")     # To manipulate dataframes
+install.packages("stringr")   # To manipulate strings
+install.packages("readxl")    # To read directly the data from an Excel file
+
+install.packages("ggplot2")   # for high quality graphics
+install.packages("leaflet")
+
+```
+
+# References
+
+* Leaflet for R : https://rstudio.github.io/leaflet/
+
+
+# Tutorial description
+
+## Load necessary libraries
+
+```{r, results='hide', message=FALSE}
+  library("readxl")
+  library("leaflet")
+```
+
+
+## Use of leaflet for R
+
+### Simple map
+```{r}
+m <- leaflet(options = leafletOptions()) %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=-3.9375, lat=48.77777778, popup="Roscoff Astan station") %>%
+  setView (lng=-3.95, lat=48.75, zoom=12)
+m  # Print the map
+
+```
+\includegraphics[width=300px]{img/leaflet_astan.png}
+
+
+### Maps of number of cultures isolated from different stations of the Roscoff Culture Collection (RCC) 
+Circle radius is proportionnal to number of cultures
+* addCircleMarkers: size is in pixel and therefore circle size does not change when zooming
+* addCircles: size is in meters and change when zooming
+
+
+```{r}
+df <- read_excel("RCC_cultures_per_station.xlsx")
+
+m <-  leaflet(options = leafletOptions()) %>%
+      addTiles() %>%  # Add default OpenStreetMap map tiles 
+      addCircleMarkers(data = df, lat = ~ Latitude, lng = ~ Longitude, radius = ~n_cult/10, color = "red", fill = TRUE)
+
+m
+```
+\includegraphics[width=300px]{img/leaflet_circle_markers.png}
+
+```{r}
+m <-  leaflet(options = leafletOptions()) %>%
+      addTiles() %>%  # Add default OpenStreetMap map tiles 
+      addCircles(data = df, lat = ~ Latitude, lng = ~ Longitude, radius = ~n_cult*1000, color = "red", fill = TRUE)
+
+m
+```
+\includegraphics[width=300px]{img/leaflet_circles.png}
+
+
+### Change the background of the maps
+
+See http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+
+* Ocean Base map
+
+```{r}
+m <- m %>% addProviderTiles(providers$Esri.OceanBasemap)
+m
+```
+\includegraphics[width=300px]{img/leaflet_ocean_basemap.png}
+
+
+* Esri World Imagery
+
+```{r}
+m <- m %>% addProviderTiles(providers$Esri.WorldImagery)
+m
+```
+
+\includegraphics[width=300px]{img/leaflet_esri.png}
+
