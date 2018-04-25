@@ -1,41 +1,63 @@
 ---
 title: "Introduction to R for microbial ecologists"
 author: "Daniel Vaulot"
-date: "14 jan 2018"
+date: '`r format(Sys.time(), "%d %m %Y")`'
 output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections : yes   
   pdf_document: 
     toc: yes
+    number_sections : yes 
     toc_depth: 2
-    fig_height : 3
-    fig_width : 5
-    
-  html_document: default
-  word_document: default
 ---
+```{r knitr_init, echo=FALSE, cache=FALSE, warning=FALSE}
+library(knitr)
+library(rmdformats)
+library("kableExtra")
+
+## Global options
+# The following line is necessary to make sure that 
+# everything is not reevaluated each time the file is knit
+
+options(max.print="75")
+  knitr::opts_chunk$set(fig.width=8, 
+                        fig.height=6, 
+                        eval=TRUE, 
+                        cache=TRUE,
+                        echo=TRUE,
+                        prompt=FALSE,
+                        tidy=TRUE,
+                        comment=NA,
+                        message=FALSE,
+                        warning=FALSE)
+opts_knit$set(width=75)
+```
+
 # Aim
 
 This document introduces basic R functions that can be used by microbial ecologists.
 
-# Prerequisites to be installed
+# Prerequisites
 
-* R : https://pbil.univ-lyon1.fr/CRAN/
+* Download from [GitHub](https://github.com/vaulot/R_tutorials/archive/master.zip) the whole set of tutorial 
 
-* R studio : https://www.rstudio.com/products/rstudio/download/#download
+* Unzip the files to a folder on your computer
 
-* Download and install the following libraries by running under R studio the following lines
+* Install [R](https://pbil.univ-lyon1.fr/CRAN/)
+
+* Install [R studio](https://www.rstudio.com/products/rstudio/download/#download)
+
+* Once R and R installed start R Studio and download and install the following libraries by running under R studio the following lines
 
 ```R
 install.packages("dplyr")     # To manipulate dataframes
 install.packages("tidyr")     # To manipulate dataframes
 install.packages("readxl")    # To read Excel files into R
-
 install.packages("ggplot2")   # for high quality graphics
 install.packages("maps")      # to make maps
-
 install.packages("treemap")   # for treemaps
-
 install.packages("FactoMineR") # multivariate analysis
-
 
 source("https://bioconductor.org/biocLite.R")
 biocLite("Biostrings")        # manipulate sequences
@@ -49,28 +71,26 @@ biocLite("Biostrings")        # manipulate sequences
 \includegraphics[height=200px]{images/R_graphics_cookbook}
 \end{center}
 
-* R-intro.pdf : Very good introduction to R, short and clear
-* R_in_a_nutshell.pdf : Many many receipes to solve all your questions
+* [R-intro.pdf](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) : Very good introduction to R, short and clear
+* [R_in_a_nutshell.pdf](http://detritus.fundacioace.com/pub/books/r_in_a_nutshell.pdf) : Many many receipes to solve all your questions
 * R graphics cook book : very good for ggplot2
-
-
 
 ## Web  
 
-* Quick-R, very simple : http://www.statmethods.net/  
-* Maps : http://www.molecularecologist.com/2012/09/making-maps-with-r/  
-* Minimal R : http://www.riffomonas.org/minimalR/
+* [Quick-R, very simple](http://www.statmethods.net/)  
+* [Maps](http://www.molecularecologist.com/2012/09/making-maps-with-r/) 
+* [Minimal R](http://www.riffomonas.org/minimalR/)
 
 \includegraphics[height=200px]{images/web_quickR}
 
 ## Cheat sheets  
-* R basics : http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf
-* ggplot2 : https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf
-* dplyr : https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+* [R basics](http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf)
+* [ggplot2](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+* [dplyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 ## On line course  
 
-* Coursera : https://www.coursera.org/  
+* [Coursera](https://www.coursera.org/) 
 
 \includegraphics[height=200px]{images/coursera}
 
@@ -94,16 +114,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Start R Studio  
 
-Go to the directory where you put the tutorial.
-
-Launch R Studio
-
-Four windows   
-
-* top-left : script files / data tables
-* bottom -left: code
-* top - left : objects
-* bottom - right : help / libraries / files  / graphics
+* Go to the tutorial folder
+* Switch to the subdirectory `\introduction`
+* Launch R Studio
+* Four windows   
+    * top-left : script files / data tables
+    * bottom -left: code
+    * top - left : objects
+    * bottom - right : help / libraries / files  / graphics
 
 \includegraphics{images/R_Studio}
 
@@ -114,11 +132,9 @@ library("tidyr")          # Needed to reshape tables from wide to long format
 library("readxl")         # To read data easily
 ```
 
-\pagebreak
+## Create simple vectors and data frame 
 
-## 1 - Create simple vectors and data frame 
-
-##### Enter the data
+### Enter the data
 Our aim here to create a small table and then to compute some simple statistics 
 
 | station | fraction | diatoms | bolidos |
@@ -136,7 +152,7 @@ diatoms<-c(17165,59786,6951,3815)
 bolidos<-c(2,1293,3,494)
 ```
 
-##### Compute new quantities
+### Compute new quantities
 ```{r}
 # Add 2 columns
 strameno<-diatoms+bolidos 
@@ -147,7 +163,7 @@ diatoms_pct<-diatoms/strameno
 diatoms_pct
 ```
 
-##### Compute statistics
+### Compute statistics
 ```{r}
 # mean
 mean(diatoms_pct)
@@ -162,34 +178,34 @@ length(diatoms_pct)
 summary(diatoms_pct)
 ```
 
-##### Accessing subsets 
+### Accessing subsets 
 ```{r}
 diatoms_pct[1]
 diatoms_pct[1:2]
 ```
 
-##### Data frames
+### Data frames
 ```{r}
 tara<-data.frame(station, fraction, diatoms, bolidos, diatoms_pct)
 tara
 ```
 
-##### Access individual columns 
+### Access individual columns 
 ```{r}
 tara$diatoms 
 ```
 
-##### Access specific lines
+### Access specific lines
 ```{r}
 tara$diatoms[tara$station==4]
 ```
 
-##### Compute statistics of a specific group
+### Compute statistics of a specific group
 ```{r}
 mean(tara$diatoms[tara$station==4])
 ```
 
-##### Computing statistics according to a factor  
+### Computing statistics according to a factor  
 
 This can be done at least two different ways, but you will see later that it is much easier to do with the dplyr package
 ```{r}
@@ -202,7 +218,7 @@ aggregate(data=tara, diatoms~station, FUN="mean")
 
 \pagebreak
 
-## 2 - Importing data
+## Importing data
 
 \includegraphics{images/Tara_Excel}
 
@@ -218,7 +234,7 @@ A few important points :
      + Always begin by letter (not a number)
 * Only import primary data, all derived data can (and must) be computed with R which makes data changes much more easy  
 
-##### The hard way - exporting from Excel to a tab-delimited file
+### The hard way - exporting from Excel to a tab-delimited file
 
 * Open Excel file  in /data directory : R_Tara.xlsx
 * Copy and Paste into text file using Notepad++
@@ -235,7 +251,7 @@ Note that empty cells are labelled as **NA** (not available) which is a R consta
 ```{r}
 str(tara)
 ```
-##### The easy way - Read directly Excel (readxl library)
+### The easy way - Read directly Excel (readxl library)
 
 ```{r}
 tara <- read_excel("data/R_Tara.xlsx", sheet = "R Tara")
@@ -247,7 +263,7 @@ str(tara)
 ```
 \pagebreak
 
-## 3 - Compute derived quantities and Statistics  (using dplyr library)
+## Compute derived quantities and Statistics  (using dplyr library)
 
 Compute % of Bacilliarophyta and Pelagophyceae vs Total photosynthetic
 ```{r}
@@ -266,7 +282,7 @@ tara_stat
 ```
 \pagebreak
 
-## 4 - Do simple X-Y plots  (using ggplot2 library)
+## Do simple X-Y plots  (using ggplot2 library)
 
 Load the ggplot2 library
 ```{r , results='hide', message=FALSE}
@@ -318,7 +334,7 @@ qplot(fraction,Baci_pct, data=tara, color=depth_level)
 ```
 \pagebreak
 
-## 5 - Other types of plots
+## Other types of plots
 
 Boxplot for the same data
 
@@ -346,7 +362,7 @@ qplot(Baci_pct, data=tara,  facets=fraction~depth_level, geom="histogram",binwid
 ```
 \pagebreak
 
-## 6 - Tree maps (much better than Pie charts...)
+## Tree maps (much better than Pie charts...)
 
 
 ```{r , results='hide', message=FALSE}
@@ -364,21 +380,21 @@ tara_tree <- tara %>% select(Sample, depth_level:fraction, Strameno_all,
 
 Do a global tree map
 
-```{r,  fig.height=6, fig.width=6}
+```{r,  fig.height=5, fig.width=5}
 treemap(tara_tree, index = "Class", vSize= "n_seq", title = "Read numbers")
 ```
 \pagebreak
 
 Split the tree map according to size fraction
 
-```{r,  fig.height=6, fig.width=6}
+```{r,  fig.height=5, fig.width=5}
 treemap(tara_tree, index = c("fraction", "Class"), vSize= "n_seq", title = "Read numbers")
 ```
 \pagebreak
 
-## 7 - Bar graphs
+## Bar graphs
 
-##### Absolute abundance
+### Absolute abundance
 
 Only keep surface samples
 ```{r }
@@ -397,7 +413,7 @@ ggplot(tara_bar, aes(x = Sample , y = n_seq, fill=Class) ) +
 ```        
 \pagebreak
 
-##### Relative abundance
+### Relative abundance
 
 Compute the relative abundance of each sequence by dividing by the total number of barcodes
 ```{r}
@@ -415,7 +431,7 @@ ggplot(tara_bar, aes(x = Sample , y = n_seq_rel, fill=Class) ) +
 
 \pagebreak
 
-## 8 - Heat maps
+## Heat maps
 
 Note : for metabarcoding data use phyloseq package.
 
@@ -438,7 +454,7 @@ heatmap(tara_heat.matrix, margins = c(20,6) )
 
 \pagebreak
 
-## 9 - Multivariate analysis (FactoMiner package)
+## Multivariate analysis (FactoMiner package)
 
 ```{r , results='hide', message=FALSE}
 library("FactoMineR")     # For PCA
@@ -446,7 +462,7 @@ library("FactoMineR")     # For PCA
 
 Principal component analysis (PCA)
 
-```{r PCA  }
+```{r PCA , fig.height=7, fig.width=7 }
 
 # Select only the 0.8-5 µm fraction and only the colums with phytplankon data and metadata
 tara_multi<- tara %>% filter(fraction=="0.8-5")
@@ -466,7 +482,7 @@ tara_pca<-PCA(tara_multi)
 
 \pagebreak
 
-## 10 -	Maps
+## Maps
 
 ```{r , results='hide', message=FALSE}
 library("maps")           # Maps
@@ -479,7 +495,7 @@ tara_map <-tara %>% filter((fraction=="0.8-5")&(depth_level=="SUR"))
 
 Draw the world map and add the stations
 
-```{r}
+```{r, fig.height=8, fig.width=10}
 # Draw the world map
 map(database = "world",fill=TRUE)
 
@@ -496,7 +512,7 @@ title("Bacilliorophyta as % of Photosynthetic - 0.8-5 µm - surface",cex.main=1.
 
 \pagebreak
 
-## 11 - Manipulate sequences
+## Manipulate sequences
 
 In  BioConductor there are many packages that can process sequences either GenBank or short reads
 ```{r , results='hide', message=FALSE}
@@ -509,7 +525,7 @@ seq<-readDNAStringSet("data/BIOSOPE_T142_reads_random.fasta", format="fasta")
 ```
 
 Compute length of sequence (discard N), compute statistics and plot histogram
-```{r, fig.height=3}
+```{r, fig.height=3, fig.width=6 }
 Length_seq<-letterFrequency(seq, letters="ATCG")
 
 range(Length_seq)
@@ -520,7 +536,7 @@ qplot(Length_seq, geom="histogram", xlab="Sequence length", ylab="Frequency")
 ```
 
 Compute GC% and do simple plots
-```{r, fig.height=3}
+```{r, , fig.height=3, fig.width=6}
 # Compute number of "GC"
 GC_seq <- letterFrequency(seq, letters="CG")
 
