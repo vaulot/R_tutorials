@@ -23,6 +23,8 @@ Please post any question or issues here : https://github.com/vaulot/R_tutorials/
 
 * Install [R studio](https://www.rstudio.com/products/rstudio/download/#download)
 
+* Download this set tutorial from GitHub : [R tutorials](https://github.com/vaulot/R_tutorials/archive/master.zip)
+
 * Download and install the following libraries by running under R studio the following lines
 
 ```R
@@ -45,8 +47,10 @@ biocLite("Biostrings")        # manipulate sequences
 #### Step by step instructions
 
 * [Introduction to R](https://vaulot.github.io/tutorials/R_introduction_tutorial.html)
-* [Plot and process culture data](https://github.com/vaulot/R_tutorials/blob/master/cultures/R_tutorial_cultures.pdf)
-* [Phyloseq analysis of metabarcode data](https://github.com/vaulot/R_tutorials/blob/master/phyloseq/Phyloseq_tutorial.pdf)
+* [Plot and process culture data](https://vaulot.github.io/tutorials/R_tutorial_cultures.html)
+* [Phyloseq analysis of metabarcode data](https://vaulot.github.io/tutorials/Phyloseq_tutorial.html)
 
+#### Feedback
 
+* Please post on [GitHub](https://github.com/vaulot/R_tutorials/issues)
 
