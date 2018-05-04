@@ -5,22 +5,39 @@ date: '`r format(Sys.time(), "%d %m %Y")`'
 header-includes:
    - \usepackage{color, fancyvrb}
 output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections : yes    
   pdf_document: 
     toc: yes
     toc_depth: 2
     number_sections : yes
-    fig_height : 6
-    fig_width : 7
-
 ---
 
-\RecustomVerbatimEnvironment
-  {Verbatim}{Verbatim}
-  {xleftmargin=5mm, frame=single,formatcom=\color{blue}, fontsize=\small}
+```{r knitr_init, echo=FALSE, warning=FALSE, cache=TRUE}
+library(knitr)
+library(rmdformats)
+library("kableExtra")
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Global options
+# The following line is necessary to make sure that 
+# everything is not reevaluated each time the file is knit
+# Note : in the case of this report it is necessary to leave cache= FALSE
+
+options(max.print="75")
+knitr::opts_chunk$set(fig.width=8, 
+                      fig.height=6, 
+                      eval=TRUE, 
+                      cache=TRUE,
+                      echo=TRUE,
+                      prompt=FALSE,
+                      tidy=TRUE,
+                      comment=NA,
+                      message=FALSE,
+                      warning=FALSE)
+opts_knit$set(width=85)
 ```
+
 
 # Aim
 
@@ -61,7 +78,7 @@ install.packages("plotrix" )  # needed for standard error
 
 ## Load the libraries
 
-```{r, results='hide', message=FALSE}
+```{r, results='hide', message=FALSE, warning=FALSE}
 library("ggplot2")
 library("gridExtra")
 library("plotrix" ) # needed for standard error
