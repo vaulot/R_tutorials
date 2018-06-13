@@ -1,0 +1,4 @@
+samples,Cruise,Station,latitude,longitude,Depth,Dissolved oxygen
+X43,SSD05,BoBTS,17.928,88.979,43,1.9834
+X200,SSD05,BoBTS,17.928,88.979,200,0.0339
+X1000,SSD05,BoBTS,17.928,88.979,1000,0.5863

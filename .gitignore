@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+README.html
+phyloseq/~$Phyloseq_tutorial.pptx
+*.Rproj
+R_introduction_tutorial_cache
+R_introduction_tutorial.html
+R_introduction_tutorial_files
+# cultures/R_tutorial_cultures.html
+# cultures/R_tutorial_cultures_files/*
+# cultures/R_tutorial_cultures_cache/*
+*_files*
+*_cache*
+*.html
+*.zip
