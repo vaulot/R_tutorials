@@ -6,9 +6,9 @@ output:
   rmdformats::readthedown:
     highlight: kate
     number_sections : yes   
-  pdf_document: 
+  pdf_document:
     toc: yes
-    number_sections : yes 
+    number_sections : yes
     toc_depth: 2
 ---
 ```{r knitr_init, echo=FALSE, cache=FALSE, warning=FALSE}
@@ -17,13 +17,13 @@ library(rmdformats)
 library("kableExtra")
 
 ## Global options
-# The following line is necessary to make sure that 
+# The following line is necessary to make sure that
 # everything is not reevaluated each time the file is knit
 
 options(max.print="75")
-  knitr::opts_chunk$set(fig.width=8, 
-                        fig.height=6, 
-                        eval=TRUE, 
+  knitr::opts_chunk$set(fig.width=8,
+                        fig.height=6,
+                        eval=TRUE,
                         cache=TRUE,
                         echo=TRUE,
                         prompt=FALSE,
@@ -40,7 +40,7 @@ This document introduces basic R functions that can be used by microbial ecologi
 
 # Prerequisites
 
-* Download from [GitHub](https://github.com/vaulot/R_tutorials/archive/master.zip) the whole set of tutorial 
+* Download from [GitHub](https://github.com/vaulot/R_tutorials/archive/master.zip) the whole set of tutorial
 
 * Unzip the files to a folder on your computer
 
@@ -77,11 +77,18 @@ biocLite("Biostrings")        # manipulate sequences
 
 ## Web  
 
+### Introductory
 * [Quick-R, very simple](http://www.statmethods.net/)  
-* [Maps](http://www.molecularecologist.com/2012/09/making-maps-with-r/) 
+* [Maps](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
 * [Minimal R](http://www.riffomonas.org/minimalR/)
 
 \includegraphics[height=200px]{images/web_quickR}
+
+### To go one step beyond
+* [Modern Dive : An Introduction to Statistical and Data Sciences via R](http://moderndive.com/index.html)
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [Fundamentals of data visualization](http://serialmentor.com/dataviz/histograms-density-plots.html)
+* [From data to visualization](https://www.data-to-viz.com/)
 
 ## Cheat sheets  
 * [R basics](http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf)
@@ -90,7 +97,7 @@ biocLite("Biostrings")        # manipulate sequences
 
 ## On line course  
 
-* [Coursera](https://www.coursera.org/) 
+* [Coursera](https://www.coursera.org/)
 
 \includegraphics[height=200px]{images/coursera}
 
@@ -101,7 +108,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Step by step tutorial  
 
-## Some important points before starting 
+## Some important points before starting
 
 * R is an interpreted language
 * R is **case sensitive**
@@ -132,10 +139,10 @@ library("tidyr")          # Needed to reshape tables from wide to long format
 library("readxl")         # To read data easily
 ```
 
-## Create simple vectors and data frame 
+## Create simple vectors and data frame
 
 ### Enter the data
-Our aim here to create a small table and then to compute some simple statistics 
+Our aim here to create a small table and then to compute some simple statistics
 
 | station | fraction | diatoms | bolidos |
 | --- | --- | --- | --- | --- |
@@ -155,7 +162,7 @@ bolidos<-c(2,1293,3,494)
 ### Compute new quantities
 ```{r}
 # Add 2 columns
-strameno<-diatoms+bolidos 
+strameno<-diatoms+bolidos
 strameno
 
 # Divide one column by the other
@@ -178,7 +185,7 @@ length(diatoms_pct)
 summary(diatoms_pct)
 ```
 
-### Accessing subsets 
+### Accessing subsets
 ```{r}
 diatoms_pct[1]
 diatoms_pct[1:2]
@@ -190,9 +197,9 @@ tara<-data.frame(station, fraction, diatoms, bolidos, diatoms_pct)
 tara
 ```
 
-### Access individual columns 
+### Access individual columns
 ```{r}
-tara$diatoms 
+tara$diatoms
 ```
 
 ### Access specific lines
@@ -267,15 +274,15 @@ str(tara)
 
 Compute % of Bacilliarophyta and Pelagophyceae vs Total photosynthetic
 ```{r}
-tara <- tara %>% mutate(Baci_pct = Bacillariophyta/Photo_all*100, 
-                        Pela_pct = Pelagophyceae/Photo_all*100) 
+tara <- tara %>% mutate(Baci_pct = Bacillariophyta/Photo_all*100,
+                        Pela_pct = Pelagophyceae/Photo_all*100)
 ```
 
 Mean and SD as a function of size fraction and depth_level
 ```{r}
-tara_stat <- tara %>% group_by(fraction, depth_level) %>% 
+tara_stat <- tara %>% group_by(fraction, depth_level) %>%
                       summarise(Baci_pct_mean = mean(Baci_pct),
-                                Baci_pct_SD = sd(Baci_pct), 
+                                Baci_pct_SD = sd(Baci_pct),
                                 n=n())
 tara_stat
 
@@ -372,9 +379,9 @@ library("treemap")        # To do treemaps
 Reshape the data in order to go from the wide format to go too the long format
 
 ```{r}
-tara_tree <- tara %>% select(Sample, depth_level:fraction, Strameno_all, 
+tara_tree <- tara %>% select(Sample, depth_level:fraction, Strameno_all,
                              Bacillariophyta:Raphidophyceae)  %>%
-                      gather(key = Class, value = n_seq, 
+                      gather(key = Class, value = n_seq,
                              Bacillariophyta:Raphidophyceae)
 ```
 
@@ -405,9 +412,9 @@ Do the bar plot for absolute read numbers
 * Note : rotation of labels : `theme(axis.text.x = element_text(angle = 90, hjust = 1))`
 
 ```{r,  fig.height=5, fig.width=6}
-ggplot(tara_bar, aes(x = Sample , y = n_seq, fill=Class) ) + 
+ggplot(tara_bar, aes(x = Sample , y = n_seq, fill=Class) ) +
         geom_bar(stat = "identity") +
-        theme_bw()  + ggtitle("Tara - Surface - Fraction 0.8-5 µm") + 
+        theme_bw()  + ggtitle("Tara - Surface - Fraction 0.8-5 µm") +
         xlab("Samples")+ylab("Number of metabarcodes") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```        
@@ -422,12 +429,12 @@ tara_bar <- tara_bar %>% mutate(n_seq_rel = n_seq / Strameno_all)
 
 Do the bar plot for relative read numbers
 ```{r,  fig.height=5, fig.width=6}
-ggplot(tara_bar, aes(x = Sample , y = n_seq_rel, fill=Class) ) + 
+ggplot(tara_bar, aes(x = Sample , y = n_seq_rel, fill=Class) ) +
         geom_bar(stat = "identity") +
         theme_bw() + ggtitle("Tara - Surface - Fraction 0.8-5 µm") +
         xlab("Samples")+ ylab("Fraction of metabarcodes") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1))
-``` 
+```
 
 \pagebreak
 
@@ -438,7 +445,7 @@ Note : for metabarcoding data use phyloseq package.
 Select the fraction and columns (from Bacillariophyta to Raphidophyceae) to be plotted and transform to a matrix
 
 ```{r}
-tara_heat <- tara %>% filter(fraction=="0.8-5") %>% 
+tara_heat <- tara %>% filter(fraction=="0.8-5") %>%
                       select(Bacillariophyta:Raphidophyceae)
 tara_heat.matrix <-data.matrix(tara_heat)
 
@@ -500,11 +507,11 @@ Draw the world map and add the stations
 map(database = "world",fill=TRUE)
 
 # Add stations
-points(tara_map$Longitude, tara_map$Latitude, pch=3, col="red", cex=1) 
+points(tara_map$Longitude, tara_map$Latitude, pch=3, col="red", cex=1)
 
 # Add data - circle size is proprotional to proportion of
-points(tara_map$Longitude, tara_map$Latitude, 
-       pch=19, col="blue", cex= tara_map$Baci_pct *3/100) 
+points(tara_map$Longitude, tara_map$Latitude,
+       pch=19, col="blue", cex= tara_map$Baci_pct *3/100)
 
 # Add title
 title("Bacilliorophyta as % of Photosynthetic - 0.8-5 µm - surface",cex.main=1.0)
@@ -541,7 +548,7 @@ Compute GC% and do simple plots
 GC_seq <- letterFrequency(seq, letters="CG")
 
 # Compute GC % in sequence
-GC_percent <- GC_seq/Length_seq 
+GC_percent <- GC_seq/Length_seq
 
 # Do histogram
 qplot(GC_percent, geom="histogram", xlab="GC %", ylab="Frequency")

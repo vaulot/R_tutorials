@@ -33,3 +33,20 @@ physeq_abund <- filter_taxa(physeq_norm, function(x) sum(x > total*0.01) > 0, TR
 physeq_abund
 
 plot_heatmap(physeq_abund, method = "NMDS", distance = "bray")
+
+plot_heatmap(physeq_abund, method = "MDS", distance = "jaccard",
+             taxa.label = "Class", taxa.order = "Class",
+             trans=NULL, low="beige", high="red", na.value="beige")
+
+# Alternative that all work...
+# Note in the distance, one must use physeq and physeq_abund
+
+plot_heatmap(physeq_abund, method = "MDS", distance = phyloseq::distance(physeq, method = "jaccard", binary = TRUE),
+             taxa.label = "Class", taxa.order = "Class",
+             trans=NULL, low="beige", high="red", na.value="beige")
+
+plot_heatmap(physeq_abund, method = "MDS", distance = distance(physeq, "(A+B-2*J)/(A+B-J)"),
+             taxa.label = "Class", taxa.order = "Class",
+             trans=NULL, low="beige", high="red", na.value="beige")
+
+
