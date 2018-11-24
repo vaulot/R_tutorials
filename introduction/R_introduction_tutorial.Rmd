@@ -3,13 +3,13 @@ title: "Introduction to R for microbial ecologists"
 author: "Daniel Vaulot"
 date: '`r format(Sys.time(), "%d %m %Y")`'
 output:
-  rmdformats::readthedown:
-    highlight: kate
-    number_sections : yes   
   pdf_document:
     toc: yes
     number_sections : yes
     toc_depth: 2
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections : yes   
 ---
 ```{r knitr_init, echo=FALSE, cache=FALSE, warning=FALSE}
 library(knitr)
