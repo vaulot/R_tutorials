@@ -7,6 +7,7 @@ email: vaulot@sb-roscoff.fr / vaulot@gmail.com
 I have posted here a few tutorials for different types of analysis of microbial communities.  For each of these of these tutorials there is a detailed explanation created with Rmd (see below).
 
 * [Introduction to R](https://github.com/vaulot/R_tutorials/tree/master/introduction)
+* [Manipulating and plotting data](https://github.com/vaulot/R_tutorials/tree/master/data-wrangling)
 * [Plot data from culture experiments (cell abundance vs. time)](https://github.com/vaulot/R_tutorials/tree/master/cultures)
 * [Visualization and analysis of metabarcode data with phyloseq](https://github.com/vaulot/R_tutorials/tree/master/phyloseq)
 
