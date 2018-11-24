@@ -47,7 +47,7 @@ biocLite("Biostrings")        # manipulate sequences
 #### Step by step instructions
 
 * [Introduction to R](https://vaulot.github.io/tutorials/R_introduction_tutorial.html)
-* [Manipulating and plotting data](https://github.com/vaulot/R_tutorials/raw/master/introduction/R_introduction_tutorial.pdf)
+* [Manipulating and plotting data](https://github.com/vaulot/R_tutorials/raw/master/data-wrangling/R_tutorial_data_analysis.pdf)
 * [Plot and process culture data](https://vaulot.github.io/tutorials/R_tutorial_cultures.html)
 * [Phyloseq analysis of metabarcode data](https://vaulot.github.io/tutorials/Phyloseq_tutorial.html)
 
