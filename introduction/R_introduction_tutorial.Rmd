@@ -67,8 +67,8 @@ biocLite("Biostrings")        # manipulate sequences
 
 ## Books  
 \begin{center}
-\includegraphics[height=200px]{images/R_nutshell}
-\includegraphics[height=200px]{images/R_graphics_cookbook}
+\includegraphics[height=200px]{../img/R_nutshell}
+\includegraphics[height=200px]{../img/R_graphics_cookbook}
 \end{center}
 
 * [R-intro.pdf](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf) : Very good introduction to R, short and clear
@@ -82,7 +82,7 @@ biocLite("Biostrings")        # manipulate sequences
 * [Maps](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
 * [Minimal R](http://www.riffomonas.org/minimalR/)
 
-\includegraphics[height=200px]{images/web_quickR}
+\includegraphics[height=200px]{../img/web_quickR}
 
 ### To go one step beyond
 * [Modern Dive : An Introduction to Statistical and Data Sciences via R](http://moderndive.com/index.html)
@@ -99,7 +99,7 @@ biocLite("Biostrings")        # manipulate sequences
 
 * [Coursera](https://www.coursera.org/)
 
-\includegraphics[height=200px]{images/coursera}
+\includegraphics[height=200px]{../img/coursera}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -130,7 +130,7 @@ knitr::opts_chunk$set(echo = TRUE)
     * top - left : objects
     * bottom - right : help / libraries / files  / graphics
 
-\includegraphics{images/R_Studio}
+\includegraphics{../img/R_Studio_interface}
 
 ## Load necessary libraries  
 ```{r libraries, results='hide', message=FALSE}
@@ -227,7 +227,7 @@ aggregate(data=tara, diatoms~station, FUN="mean")
 
 ## Importing data
 
-\includegraphics{images/Tara_Excel}
+\includegraphics{../img/Tara_Excel}
 
 A few important points :  
 
@@ -250,7 +250,7 @@ A few important points :
 Note : you can also export from Excel but then it must be TAB-delimited (tsv file)
 
 ```{r}
-tara <- read.delim("data/R_Tara.txt")
+tara <- read.delim("../data/R_Tara.txt")
 ```
 
 Get the name and type of all the columns - Note that strings are of type "factor"
@@ -261,7 +261,7 @@ str(tara)
 ### The easy way - Read directly Excel (readxl library)
 
 ```{r}
-tara <- read_excel("data/R_Tara.xlsx", sheet = "R Tara")
+tara <- read_excel("../data/R_Tara.xlsx", sheet = "R Tara")
 ```
 
 Get the name and type of all the columns - Note that strings are now of type "char", which is better
@@ -528,7 +528,7 @@ library("Biostrings")     # To manipulate sequences
 
 Read sequences from metagenome (454)
 ```{r}
-seq<-readDNAStringSet("data/BIOSOPE_T142_reads_random.fasta", format="fasta")
+seq<-readDNAStringSet("../data/BIOSOPE_T142_reads_random.fasta", format="fasta")
 ```
 
 Compute length of sequence (discard N), compute statistics and plot histogram
@@ -560,13 +560,13 @@ qplot(GC_percent,Length_seq)
 
 **Exercice** : Load sequence from Bathycoccus and compare GC% to that of the whole metagenome
 ```{r}
-seq <- readDNAStringSet("data/BIOSOPE_T142_reads_Bathy.fasta", format="fasta")
+seq <- readDNAStringSet("../data/BIOSOPE_T142_reads_Bathy.fasta", format="fasta")
 ```
 
 \pagebreak
 
 \begin{center}
-\includegraphics{images/achille_talon}
+\includegraphics{../img/achille_talon}
 
 \textbf{Your turn now. These are just a few of the things you can do, possibilities are endless...}
 \end{center}

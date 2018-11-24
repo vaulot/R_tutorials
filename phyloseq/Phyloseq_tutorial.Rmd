@@ -5,13 +5,13 @@ date: '`r format(Sys.time(), "%d %m %Y")`'
 header-includes:
    - \usepackage{color, fancyvrb}
 output:
+  rmdformats::readthedown:
+    highlight: kate
+    number_sections : yes    
   pdf_document: 
     toc: yes
     toc_depth: 2
     number_sections : yes
-  rmdformats::readthedown:
-    highlight: kate
-    number_sections : yes    
 ---
 
 ```{r knitr_init, echo=FALSE, warning=FALSE, cache=TRUE}
@@ -52,7 +52,7 @@ This document explains the use of the phyloseq R library to analyze metabarcodin
 
 
 ```{r, echo=FALSE, fig.cap="Carbom cruise", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/carbom_cruise.png")
+knitr::include_graphics("../img/carbom_cruise.png")
 ```
 
 This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A. Lopes dos Santos.  This dataset originates from the CARBOM cruise in 2013 off Brazil and corresponds to the 18S V4 region amplified on flow cytometry sorted samples (see pptx file for details) and sequenced on an Illumina run 2*250 bp analyzed with mothur.
@@ -64,7 +64,7 @@ This tutorial uses a reduced metabarcoding dataset obtained by C. Ribeiro and A.
 * Gérikas Ribeiro C, Lopes dos Santos A, Marie D, Brandini P, Vaulot D. (2018). Relationships between photosynthetic eukaryotes and nitrogen-fixing cyanobacteria off Brazil. ISME J in press.
 
 ```{r, echo=FALSE, fig.cap="Carbom paper in ISME", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/carbom_isme.png")
+knitr::include_graphics("../img/carbom_isme.png")
 ```
 
 
@@ -96,24 +96,16 @@ biocLite("phyloseq")
 
 * Transfer  the files that you downloaded from https://github.com/vaulot/R_tutorials/archive/master.zip to a directory on the computer or server you are using "C:/R_tutorial" or "home/R_tutorial"
 
-* Open R Studio
-
 * Navigate  to the /R_tutorial/phyloseq directory.  You should see the following files :
 
 ```console
-CARBOM data.xlsx
 Phyloseq_tutorial.Rmd
-/img
 ```
 
-* Change your working directory where the files have been downloaded (adapt to your specific case !)
-
-```R
-setwd("~/R_tutorial/phyloseq")
-```
+* Double click on the file and this should open R Studio
 
 ```{r, echo=FALSE, fig.cap="R studio", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/r_studio.png")
+knitr::include_graphics("../img/r_studio.png")
 ```
 
 * Run the "R chunks" 
@@ -143,22 +135,22 @@ Three tables are needed
 They are read from a single Excel file where each sheet contains one of the tables
 
 ```{r, echo=FALSE, fig.cap="Table OTU - OTU abundance", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/table_otu.png")
+knitr::include_graphics("../img/table_otu.png")
 ```
 
 ```{r, echo=FALSE, fig.cap="Table Taxo - OTU taxonomy", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/table_taxo.png")
+knitr::include_graphics("../img/table_taxo.png")
 ```
 
 ```{r, echo=FALSE, fig.cap="Table Samples", out.width = '100%', fig.align= "center"}
-knitr::include_graphics("img/table_sample.png")
+knitr::include_graphics("../img/table_sample.png")
 ```
 
 
 ```{r}
-  otu_mat<- read_excel("CARBOM data.xlsx", sheet = "OTU matrix")
-  tax_mat<- read_excel("CARBOM data.xlsx", sheet = "Taxonomy table")
-  samples_df <- read_excel("CARBOM data.xlsx", sheet = "Samples")
+  otu_mat<- read_excel("../data/CARBOM data.xlsx", sheet = "OTU matrix")
+  tax_mat<- read_excel("../data/CARBOM data.xlsx", sheet = "Taxonomy table")
+  samples_df <- read_excel("../data/CARBOM data.xlsx", sheet = "Samples")
 ```
 Phyloseq objects need to have row.names
 
