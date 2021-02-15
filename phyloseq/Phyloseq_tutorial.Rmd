@@ -120,6 +120,7 @@ library("phyloseq")
 library("ggplot2")      # graphics
 library("readxl")       # necessary to import the data from Excel file
 library("dplyr")        # filter and reformat data frames
+library("tibble")       # Needed for converting column to row names
 ```
 
 ## Read the data and create phyloseq objects
@@ -156,24 +157,20 @@ Phyloseq objects need to have row.names
 
 * define the row names from the otu column
 
-```{r, warning=FALSE}
-    row.names(otu_mat) <- otu_mat$otu
-```
-
-* remove the column otu since it is now used as a row name     
-
 ```{r}
-    otu_mat <- otu_mat %>% select (-otu) 
+  otu_mat <- otu_mat %>%
+    tibble::column_to_rownames("otu") 
 ```
 
 * Idem for the two other matrixes 
 
 ```{r, warning=FALSE}
-  row.names(tax_mat) <- tax_mat$otu
-  tax_mat <- tax_mat %>% select (-otu) 
 
-  row.names(samples_df) <- samples_df$sample
-  samples_df <- samples_df %>% select (-sample) 
+  tax_mat <- tax_mat %>% 
+    tibble::column_to_rownames("otu")
+
+  samples_df <- samples_df %>% 
+    tibble::column_to_rownames("sample") 
 
 ```
 
